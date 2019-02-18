@@ -1,0 +1,117 @@
+2019-02-12 13:02:03,677 ERROR: Exception on /addinform [GET] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+Traceback (most recent call last):
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 28, in addinform
+    return render_template('commit.html', title='AddInfrom', form = form)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\templating.py", line 135, in render_template
+    context, ctx.app)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\templating.py", line 117, in _render
+    rv = template.render(context)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\asyncsupport.py", line 76, in render
+    return original_render(self, *args, **kwargs)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\commit.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\base.html", line 1, in top-level template code
+    {% extends 'bootstrap/base.html' %}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 1, in top-level template code
+    {% block doc -%}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 4, in block "doc"
+    {%- block html %}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 20, in block "html"
+    {% block body -%}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 23, in block "body"
+    {% block content -%}
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\base.html", line 55, in block "content"
+    {% block app_content %}{% endblock %}
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\commit.html", line 5, in block "app_content"
+    <h1>{{posts.id}}:{{posts.title}}</h1>
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 430, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'posts' is undefined
+2019-02-12 13:03:11,627 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:20:21,367 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:20:25,477 ERROR: Exception on /addinform [GET] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+Traceback (most recent call last):
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 28, in addinform
+    return render_template('addinform.html', title='AddInfrom', form = form)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\templating.py", line 135, in render_template
+    context, ctx.app)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\templating.py", line 117, in _render
+    rv = template.render(context)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\asyncsupport.py", line 76, in render
+    return original_render(self, *args, **kwargs)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\addinform.html", line 2, in top-level template code
+    {% import 'bootstrap/wtf.html' as wtf %}
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\base.html", line 1, in top-level template code
+    {% extends 'bootstrap/base.html' %}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 1, in top-level template code
+    {% block doc -%}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 4, in block "doc"
+    {%- block html %}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 20, in block "html"
+    {% block body -%}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 23, in block "body"
+    {% block content -%}
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\base.html", line 55, in block "content"
+    {% block app_content %}{% endblock %}
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\addinform.html", line 40, in block "app_content"
+    {{ wtf.form_field(form.title) }}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\runtime.py", line 579, in _invoke
+    rv = self._func(*arguments)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\wtf.html", line 36, in template
+    {% if field.flags.required and not required in kwargs %}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 430, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'app.forms.Commit object' has no attribute 'title'
+2019-02-12 13:21:37,120 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:24:35,171 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:25:17,707 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:29:47,324 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:30:49,167 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:33:58,663 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:36:35,043 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:37:36,281 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:38:05,880 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:39:12,792 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-12 13:44:31,048 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-14 14:15:32,136 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-14 14:18:56,233 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-14 14:19:56,493 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-14 14:29:07,265 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-14 14:31:15,266 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-14 20:44:22,736 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:31]

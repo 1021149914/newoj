@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %} 
+
+{% block app_content %}
+    <div class="panel panel-default">
+        <!-- Table -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Source</th>
+                    <th>Radio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    <td>
+                        <a href="{{ url_for('problem_content', problemid=post.id) }}">
+                            {{ post.title }}
+                        </a>
+                    </td>
+                    <td>{{ post.source }}</td>
+                    <td>{{ post.radio }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if pagination %}
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination, '.problem') }}
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <h3 align = center style = "margin:0px;">{{problem.id}}:{{problem.title}}</h3>
+            <p align = center style = "margin:0px;">Author:{{author.username}}&nbsp; &nbsp; &nbsp; &nbsp;Status:{{posts.answer}}&nbsp; &nbsp; &nbsp; &nbsp;MS:{{posts.ms}} &nbsp; &nbsp; &nbsp; &nbsp; KB:{{posts.kb}}</p>
+        </div>
+        <!-- List group -->
+        <ul class="list-group">
+            <li class="list-group-item">
+                <pre><code class="language-c++">{{posts.code}}</code></pre>
+            </li>
+        </ul>
+    </div>
+<link href="{{ url_for('static',filename='prism/prism.css') }}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static',filename='prism/prism.js') }}"></script>
+<script type="text/javascript">
+    $('pre').addClass("line-numbers").css("white-space", "pre-wrap");
+</script>
+{% endblock %}

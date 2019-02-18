@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <h3 align = center style = "margin:0px;">{{posts.key}}</h3>
+            <p align = center style = "margin:0px;">ms:{{posts.ms}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; kb:{{posts.kb}}</p>
+        </div>
+        <!-- List group -->
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div id="test-editormd-view">
+                    <textarea style="display:none;" name="test-editormd-markdown-doc">{{posts.content}}</textarea>               
+                </div>
+            </li>
+            <li class="list-group-item">SOURCE:{{posts.source}}</li>
+            <li class="list-group-item">HINT:{{posts.hint}}</li>
+            <li class="list-group-item">
+                <a class="btn btn-primary" href="{{ url_for('commit', id = posts.id) }}" role="button">提交代码</a>
+            </li>
+        </ul>
+    </div>
+    <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='editormd/lib/marked.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='editormd/lib/prettify.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='editormd/lib/raphael.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='editormd/lib/underscore.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='editormd/lib/sequence-diagram.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='editormd/lib/flowchart.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='editormd/lib/jquery.flowchart.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='editormd/editormd.js') }}"></script>
+    <script type="text/javascript">
+        testEditormdView2 = editormd.markdownToHTML("test-editormd-view", {
+            htmlDecode      : "style,script,iframe",  // you can filter tags decode
+            emoji           : true,
+            taskList        : true,
+            tex             : true,  // 默认不解析
+            flowChart       : true,  // 默认不解析
+            sequenceDiagram : true,  // 默认不解析
+        });
+    </script>
+{% endblock %}

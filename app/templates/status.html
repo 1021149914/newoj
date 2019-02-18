@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %} 
+
+{% block app_content %}
+    <div class="panel panel-default">
+        <!-- Table -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Submit Time</th>
+                    <th>Judge Status</th>
+                    <th>Pro.ID</th>
+                    <th>Exe.Time</th>
+                    <th>Exe.Memory</th>
+                    <th>Code Len</th>
+                    <th>Language</th>
+                    <th>Auther</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr>
+                    <td>{{post.id}}</td>
+                    <td>{{post.time}}</td>
+                    <td>{{post.status}}</td>
+                    <td><a href="{{ url_for('problem_content', problemid=post.problemid) }}">{{post.problemid}}</a></td>
+                    <td>{{post.ms}}MS</td>
+                    <td>{{post.kb}}KB</td>
+                    <td><a href="{{ url_for('show_code', id=post.id) }}">{{post.size}}B</a></td>
+                    <td>{{post.language}}</td>
+                    <td>{{post.user}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if pagination %}
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination, '.status') }}
+        </div>
+    {% endif %}
+{% endblock %}
