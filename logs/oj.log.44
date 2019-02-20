@@ -1,4 +1,16 @@
-2019-02-20 14:25:20,264 ERROR: Exception on /addcontest [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+2019-02-19 10:42:31,252 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+2019-02-19 13:07:44,377 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:35]
+2019-02-19 13:10:39,263 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:35]
+2019-02-19 13:12:25,127 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:35]
+2019-02-19 13:17:30,668 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:35]
+2019-02-19 13:18:41,015 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:35]
+2019-02-19 13:22:19,248 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:35]
+2019-02-19 13:25:37,952 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:35]
+2019-02-19 13:26:49,166 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:35]
+2019-02-19 14:01:17,568 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:35]
+2019-02-19 14:04:32,135 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:35]
+2019-02-19 14:38:24,763 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:35]
+2019-02-19 14:38:56,469 ERROR: Exception on /addproblem [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
 Traceback (most recent call last):
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -12,11 +24,11 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 78, in addcontest
-    print(t.hour)
-AttributeError: 'datetime.date' object has no attribute 'hour'
-2019-02-20 14:26:54,277 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 14:26:58,699 ERROR: Exception on /addcontest [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 255, in addproblem
+    filename = secure_filename(f.filename)
+NameError: name 'secure_filename' is not defined
+2019-02-19 14:41:35,134 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+2019-02-19 14:41:39,786 ERROR: Exception on /addproblem [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
 Traceback (most recent call last):
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -30,12 +42,11 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 74, in addcontest
-    t = form.beg_time.date
-AttributeError: 'DateField' object has no attribute 'date'
-2019-02-20 14:32:24,585 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 14:32:39,941 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 14:32:43,918 ERROR: Exception on /addcontest [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 256, in addproblem
+    filename = secure_filename(f.filename)
+NameError: name 'f' is not defined
+2019-02-19 14:43:11,407 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+2019-02-19 14:43:46,232 ERROR: Exception on /addproblem [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
 Traceback (most recent call last):
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -49,11 +60,11 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 81, in addcontest
-    print(datetime.strptime(form.beg_time.data, "%Y-%m-%d %H:%M:%S"))
-TypeError: strptime() argument 1 must be str, not datetime.datetime
-2019-02-20 14:36:51,694 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 14:36:54,688 ERROR: Exception on /addcontest [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 257, in addproblem
+    filename = secure_filename(f.filename)
+AttributeError: 'str' object has no attribute 'filename'
+2019-02-19 14:46:34,910 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+2019-02-19 14:47:13,364 ERROR: Exception on /addproblem [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
 Traceback (most recent call last):
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -67,11 +78,11 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 78, in addcontest
-    contest.beg_time = datetime.strptime(form.beg_time.data, "%Y-%m-%d %H:%M:%S")
-TypeError: strptime() argument 1 must be str, not datetime.datetime
-2019-02-20 14:38:08,275 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 14:38:10,540 ERROR: Exception on /addcontest [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 257, in addproblem
+    filename = secure_filename(form.stdin.data.filename)
+AttributeError: 'str' object has no attribute 'filename'
+2019-02-19 15:02:39,303 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+2019-02-19 15:02:40,888 ERROR: Exception on /addproblem [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
 Traceback (most recent call last):
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -85,11 +96,10 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 74, in addcontest
-    print(t)
-UnboundLocalError: local variable 't' referenced before assignment
-2019-02-20 14:38:50,599 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 14:38:54,512 ERROR: Exception on /addcontest [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 256, in addproblem
+    filename = form.stdin.data.filename
+AttributeError: 'str' object has no attribute 'filename'
+2019-02-19 15:03:44,344 ERROR: Exception on /addproblem [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
 Traceback (most recent call last):
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -103,25 +113,7 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 79, in addcontest
-    contest.beg_time = datetime.strptime(form.beg_time.data, "%Y-%m-%d %H:%M:%S")
-TypeError: strptime() argument 1 must be str, not datetime.datetime
-2019-02-20 14:46:46,562 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 14:47:24,286 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 14:47:30,243 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 15:08:36,395 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 15:13:11,839 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 15:13:33,807 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 15:35:41,574 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 15:36:17,651 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 15:37:09,479 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 15:42:36,699 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 15:52:45,853 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 15:54:22,961 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 16:05:32,442 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 16:09:04,865 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 16:11:18,831 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 16:15:33,893 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 16:33:56,247 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 16:34:28,285 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
-2019-02-20 16:37:14,285 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 256, in addproblem
+    filename = form.stdin.data.filename
+AttributeError: 'str' object has no attribute 'filename'
+2019-02-19 15:04:02,503 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]

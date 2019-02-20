@@ -1,4 +1,18 @@
-2019-02-12 13:02:03,677 ERROR: Exception on /addinform [GET] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+2019-02-17 09:29:04,608 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 09:39:44,550 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 09:48:39,632 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 09:50:05,269 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 09:50:39,546 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 09:51:02,251 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 09:51:30,444 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 09:57:54,326 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 10:04:05,558 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 10:05:24,512 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 10:06:07,559 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 10:06:35,606 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 10:06:58,454 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
+2019-02-17 14:37:29,754 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 14:37:32,775 ERROR: Exception on /commit/12 [GET] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
 Traceback (most recent call last):
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -12,8 +26,8 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 28, in addinform
-    return render_template('commit.html', title='AddInfrom', form = form)
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 170, in commit
+    return render_template('commit.html', title='Commit', posts=posts, form = form)
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\templating.py", line 135, in render_template
     context, ctx.app)
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\templating.py", line 117, in _render
@@ -38,16 +52,26 @@ Traceback (most recent call last):
     {% block body -%}
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 23, in block "body"
     {% block content -%}
-  File "C:\Users\WuBingting\Desktop\newoj\app\templates\base.html", line 55, in block "content"
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\base.html", line 58, in block "content"
     {% block app_content %}{% endblock %}
-  File "C:\Users\WuBingting\Desktop\newoj\app\templates\commit.html", line 5, in block "app_content"
-    <h1>{{posts.id}}:{{posts.title}}</h1>
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\commit.html", line 14, in block "app_content"
+    {{ wtf.form_errors(form, hiddens="only") }}
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 430, in getattr
     return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'posts' is undefined
-2019-02-12 13:03:11,627 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:20:21,367 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:20:25,477 ERROR: Exception on /addinform [GET] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+jinja2.exceptions.UndefinedError: 'wtf' is undefined
+2019-02-17 14:40:16,684 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:00:34,478 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:02:25,512 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:03:02,930 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:04:09,868 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:05:31,204 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:06:20,922 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:07:13,317 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:13:10,274 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:14:11,294 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:14:33,719 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:15:03,112 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:23:38,540 ERROR: Exception on /image/20190126222246.jpg [GET] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
 Traceback (most recent call last):
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -61,57 +85,37 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 28, in addinform
-    return render_template('addinform.html', title='AddInfrom', form = form)
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\templating.py", line 135, in render_template
-    context, ctx.app)
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\templating.py", line 117, in _render
-    rv = template.render(context)
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\asyncsupport.py", line 76, in render
-    return original_render(self, *args, **kwargs)
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 1008, in render
-    return self.environment.handle_exception(exc_info, True)
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 780, in handle_exception
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_login\utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 232, in image
+FileNotFoundError: [Errno 2] No such file or directory: './image/20190126222246.jpg'
+2019-02-17 15:45:06,761 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:45:26,461 ERROR: Exception on /show_code/6 [GET] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+Traceback (most recent call last):
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
     reraise(exc_type, exc_value, tb)
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\_compat.py", line 37, in reraise
-    raise value.with_traceback(tb)
-  File "C:\Users\WuBingting\Desktop\newoj\app\templates\addinform.html", line 2, in top-level template code
-    {% import 'bootstrap/wtf.html' as wtf %}
-  File "C:\Users\WuBingting\Desktop\newoj\app\templates\base.html", line 1, in top-level template code
-    {% extends 'bootstrap/base.html' %}
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 4, in block "doc"
-    {%- block html %}
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 20, in block "html"
-    {% block body -%}
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 23, in block "body"
-    {% block content -%}
-  File "C:\Users\WuBingting\Desktop\newoj\app\templates\base.html", line 55, in block "content"
-    {% block app_content %}{% endblock %}
-  File "C:\Users\WuBingting\Desktop\newoj\app\templates\addinform.html", line 40, in block "app_content"
-    {{ wtf.form_field(form.title) }}
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\runtime.py", line 579, in _invoke
-    rv = self._func(*arguments)
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\wtf.html", line 36, in template
-    {% if field.flags.required and not required in kwargs %}
-  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 430, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'app.forms.Commit object' has no attribute 'title'
-2019-02-12 13:21:37,120 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:24:35,171 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:25:17,707 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:29:47,324 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:30:49,167 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:33:58,663 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:36:35,043 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:37:36,281 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:38:05,880 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:39:12,792 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-12 13:44:31,048 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-14 14:15:32,136 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-14 14:18:56,233 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-14 14:19:56,493 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-14 14:29:07,265 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-14 14:31:15,266 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:30]
-2019-02-14 20:44:22,736 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:31]
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 60, in show_code
+    posts = record.items
+AttributeError: 'Record' object has no attribute 'items'
+2019-02-17 15:46:05,434 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:46:56,314 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:50:21,092 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:54:01,181 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:58:14,615 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 15:59:46,317 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 16:02:49,887 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 16:03:43,463 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 16:04:09,775 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 16:04:29,311 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 16:05:09,220 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]
+2019-02-17 16:06:28,783 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:32]

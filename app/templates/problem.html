@@ -11,6 +11,10 @@
                     <th>Title</th>
                     <th>Source</th>
                     <th>Radio</th>
+                    {% if current_user.limit == "1" %}
+                    <th>Operation</th>
+                    <th>Post</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -24,6 +28,28 @@
                     </td>
                     <td>{{ post.source }}</td>
                     <td>{{ post.radio }}</td>
+                    {% if current_user.limit == "1" %}
+                    <td>
+                        <a class="btn btn-default" href="{{url_for('edit_problem', id=post.id)}}" role="button">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        </a>
+                        <a class="btn btn-default" href="{{url_for('del_problem', id=post.id)}}" role="button">
+                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                    <td>
+                        {% if post.limit == "0" %}
+                        <a class="btn btn-default" href="{{url_for('ok_problem', id=post.id)}}" role="button">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </a>
+                        {% else %}
+                        <a class="btn btn-default" href="{{url_for('re_problem', id=post.id)}}" role="button">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
+                        {% endif %}
+                    </td>
+                    {% else %}
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>

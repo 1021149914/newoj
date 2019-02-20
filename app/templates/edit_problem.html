@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='editormd/css/editormd.css') }}"/>
+    <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='editormd/editormd.min.js') }}"></script>
+    <script type="text/javascript">
+    var editorMd = null;
+$(function() {
+    editorMd = editormd("editormd", {
+        width: "100%",
+        height: 800,
+        path :  "{{ url_for('static',filename='editormd/lib/') }}",
+        codeFold : true,
+        saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+        searchReplace : true,
+        htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+        emoji : true,
+        taskList : true,
+        tocm : true,         // Using [TOCM]
+        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+        flowChart : true,             // 开启流程图支持，默认关闭
+        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+        dialogMaskBgColor : "#fff", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+        imageUpload : true,
+        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+        imageUploadURL : "{{ url_for('upload') }}",
+        onload : function() {
+            console.log('onload', this);
+        }
+     });
+});
+    </script>
+    <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Add Problem</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form form-horizontal" method="post" role="form">
+                    {{ form.hidden_tag() }}
+                    {{ wtf.form_errors(form, hiddens="only") }}
+                    {{ wtf.form_field(form.title) }}
+                    {{ wtf.form_field(form.ms) }}
+                    {{ wtf.form_field(form.kb) }}
+                    <div class="form-group ">
+                        <label class="control-label" for="content">Content</label>
+                        <div id="editormd">
+                            <textarea class="form-control" id="content" name="content" type="text" value="" style="display:none;">{{content}}</textarea>
+                        </div>
+                    </div>
+                    {{ wtf.form_field(form.source) }}
+                    {{ wtf.form_field(form.hint) }}
+                    {{ wtf.form_field(form.submit) }}
+                </form>
+            </div>
+        </div>   
+    <div>
+{% endblock %}

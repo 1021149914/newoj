@@ -17,6 +17,7 @@ class User(UserMixin, db.Model):
     limit = db.Column(db.String(1))
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    ac = db.Column(db.Integer)
     records = db.relationship('Record', backref='author', lazy='dynamic')
 
     def set_password(self, password):
@@ -40,6 +41,7 @@ class Problem(db.Model):
     hint = db.Column(db.Text)
     ms = db.Column(db.String(128))
     kb = db.Column(db.String(128))
+    limit = db.Column(db.String(1))
     records = db.relationship('Record', backref='worker', lazy='dynamic')
 
     def __repr__(self):
@@ -50,6 +52,9 @@ class Contest(db.Model):
     title = db.Column(db.String(128))
     content = db.Column(db.Text)
     source = db.Column(db.String(128))
+    beg_time = db.Column(db.DateTime, default=datetime.utcnow)
+    end_time = db.Column(db.DateTime, default=datetime.utcnow)
+    limit = db.Column(db.String(1))
     contest_problem = db.relationship('Contest_Problem', backref='list', lazy='dynamic')
 
     def __repr__(self):
@@ -68,6 +73,7 @@ class Inform(db.Model):
     title = db.Column(db.String(128))
     content = db.Column(db.Text)
     source = db.Column(db.String(128))
+    limit = db.Column(db.String(1))
 
     def __repr__(self):
         return '<Inform {}>'.format(self.id) 

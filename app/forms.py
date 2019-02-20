@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, DateTimeField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import User, Problem, Contest, Inform, Record
+from flask_wtf.file import FileField
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -26,10 +27,17 @@ class AddProblem(FlaskForm):
     hint = TextAreaField('Hint', validators=[Length(min=0, max=255)])
     submit = SubmitField('提交')
 
+class Update(FlaskForm):
+    stdin = FileField('Input Data', [DataRequired()])
+    stdout = FileField('Output Data', [DataRequired()])
+    submit = SubmitField('上传')
+
 class AddContest(FlaskForm):
     title = StringField('Title', validators=[Length(min=0, max=127)])
     content = TextAreaField('Content', validators=[Length(min=0, max=65535)])
     source = StringField('Source', validators=[Length(min=0, max=127)])
+    beg_time = DateTimeField('Begin Time', format='%Y-%m-%d %H:%M:%S')
+    end_time = DateTimeField('End Time', format='%Y-%m-%d %H:%M:%S')
     submit = SubmitField('提交')
 
 class AddContestProblem(FlaskForm):

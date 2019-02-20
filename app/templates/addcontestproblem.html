@@ -40,7 +40,7 @@
                 {% for c in cot %}
                 <tr>
                     <td>{{c.id}}</td>
-                    <td>{{c.title}}</td>
+                    <td><a href="{{url_for('problem_content', problemid=c.id)}}">{{c.title}}</a></td>
                     <td>{{c.source}}</td>
                     <td>
                         <a class="btn btn-default" href="{{url_for('delet', id=c.pid)}}" role="button">

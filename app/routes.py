@@ -1,14 +1,17 @@
 from flask import render_template, flash, redirect, url_for, request, jsonify, Response
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, AddProblem, Commit, AddInform, AddContest
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, AddProblem, Commit, AddInform, AddContest, Update
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Problem, Contest, Inform, Record, Contest_Problem
 from werkzeug.urls import url_parse
-from datetime import datetime
-from sqlalchemy import desc
+from datetime import datetime, timedelta
+from sqlalchemy import desc, distinct
 from flask_paginate import Pagination, get_page_parameter
+from werkzeug import secure_filename
 import os, json
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
 @app.route('/')
 @app.route('/index')
@@ -16,7 +19,10 @@ import os, json
 def index():
     post=[]
     page = request.args.get('page', 1, type=int)
-    posts = Inform.query.paginate(page, app.config['POSTS_PER_PAGE'], False)
+    if current_user.limit == "0":
+        posts = Inform.query.filter_by(limit = "1").paginate(page, app.config['POSTS_PER_PAGE'], False)
+    else :
+        posts = Inform.query.paginate(page, app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('problem', page=posts.next_num) \
         if posts.has_next else None
     prev_url = url_for('problem', page=posts.prev_num) \
@@ -28,26 +34,91 @@ def index():
 def contest():
     post=[]
     page = request.args.get('page', 1, type=int)
-    posts = Contest.query.paginate(page, app.config['POSTS_PER_PAGE'], False)
+    if current_user.limit == "0" :
+        posts = Contest.query.filter_by(limit = "1").paginate(page, app.config['POSTS_PER_PAGE'], False)
+    else :
+        posts = Contest.query.paginate(page, app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('contest', page=posts.next_num) \
         if posts.has_next else None
     prev_url = url_for('contest', page=posts.prev_num) \
         if posts.has_prev else None
-    post = posts.items
+    tk = posts.items
+    for p in tk:
+        tmp = {}
+        tmp['id'] = p.id
+        tmp['title'] = p.title
+        tmp['content'] = p.content
+        tmp['source'] = p.source
+        tmp['limit'] = p.limit
+        t = p.beg_time + timedelta(hours=8)
+        tmp['beg_time'] = t
+        t = p.end_time + timedelta(hours=8)
+        tmp['end_time'] = t
+        tmp['pid'] = p.id
+        if datetime.now()<p.beg_time :
+            tmp['pid'] = 0
+        post.append(tmp)
     return render_template('contest.html', title='Contest', posts = post, next_url = next_url, prev_url = prev_url, pagination = posts)
+
+@login_required
+@app.route('/edit_contest/<id>', methods=['GET', 'POST'])
+def edit_contest(id):
+    contest = Contest.query.filter_by(id = id).first_or_404()
+    form = AddContest()
+    if form.validate_on_submit():
+        contest.title = form.title.data
+        contest.content = form.content.data
+        contest.source = form.source.data
+        t = form.beg_time.data
+        utct = datetime.utcfromtimestamp(t.timestamp())
+        contest.beg_time = utct
+        t = form.end_time.data
+        utct = datetime.utcfromtimestamp(t.timestamp())
+        contest.end_time = utct
+        db.session.commit()
+        flash('The changes on the contest have been saved.')
+        return redirect(url_for('contest'))
+    elif request.method == 'GET':
+        form.title.data = contest.title
+        form.content.data = contest.content
+        form.source.data = contest.source
+        t = contest.beg_time + timedelta(hours=8)
+        form.beg_time.data = t
+        t = contest.end_time + timedelta(hours=8)
+        form.end_time.data = t
+        return render_template('edit_contest.html', title='Edit Contest', form=form)
+
+@login_required
+@app.route('/del_contest/<id>', methods=['GET', 'POST'])
+def del_contest(id):
+    contest = Contest.query.filter_by(id = id).first_or_404()
+    db.session.delete(contest)
+    db.session.commit()
+    flash('The contest have been deleted.')
+    return redirect(url_for('contest'))
+
+@login_required
+@app.route('/wait', methods=['GET', 'POST'])
+def wait():
+    return render_template('wait.html', title='Waiting')
 
 @app.route('/contest_problem/<id>', methods=['GET', 'POST'])
 def contest_problem(id):
+    if id == 0 :
+        return redirect(url_for('wait'))
+    contest = Contest.query.filter_by(id = id).first_or_404()
+    if datetime.utcnow() < contest.beg_time :
+        return redirect(url_for('wait'))
     post = []
     posts = Contest_Problem.query.filter_by(contest_id = id).all()
     for p in posts :
         tmp = {}
         tmp['id'] = p.problem_id
         problem = Problem.query.filter_by(id = p.problem_id).first_or_404()
-        tmp['title'] = problem.title
-        tmp['source'] = problem.source
-        post.append(tmp)
-    contest = Contest.query.filter_by(id = id).first_or_404()
+        if problem:
+            tmp['title'] = problem.title
+            tmp['source'] = problem.source
+            post.append(tmp)
     cc = {}
     cc['id'] = id
     cc['title'] =contest.title
@@ -66,12 +137,23 @@ def show_code(id):
 def addcontest():
     form = AddContest()
     if form.validate_on_submit():
-        contest = Contest(title = form.title.data, source = form.source.data, content = form.content.data)
+        contest = Contest(title = form.title.data, source = form.source.data, content = form.content.data, limit = 0)
+        t = form.beg_time.data
+        utct = datetime.utcfromtimestamp(t.timestamp())
+        #print(datetime.fromtimestamp(t.timestamp()))
+        contest.beg_time = utct
+        t = form.end_time.data
+        utct = datetime.utcfromtimestamp(t.timestamp())
+        contest.end_time = utct
         db.session.add(contest)
         db.session.commit()
         flash('Your contest have been added. Please add problem.')
         return redirect(url_for('addcontestproblem', id=contest.id))
-    return render_template('addcontest.html', title='AddContest', form = form)
+    elif request.method == 'GET':
+        now = datetime.now()
+        form.beg_time.data = now
+        form.end_time.data = now
+        return render_template('addcontest.html', title='Add Contest', form = form)
 
 @login_required
 @app.route('/addcontestproblem/<id>', methods=['GET', 'POST'])
@@ -94,6 +176,28 @@ def addcontestproblem(id):
 
 @app.route('/rank', methods=['GET', 'POST'])
 def rank():
+    post=[]
+    page = request.args.get('page', 1, type=int)
+    posts = User.query.order_by(-User.ac).paginate(page, app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('rank', page=posts.next_num) \
+        if posts.has_next else None
+    prev_url = url_for('rank', page=posts.prev_num) \
+        if posts.has_prev else None
+    user = posts.items
+    for u in user:
+        tmp = {}
+        tmp['id'] = u.id
+        tmp['name'] = u.username
+        records = Record.query.filter_by(user_id=u.id).all()
+        record = Record.query.filter_by(user_id=u.id,answer='accept').distinct(Record.problem_id).all()
+        if len(records)!=0:
+            tmp['radio'] = str(int(10000.0*len(record)/len(records))*1.0/100)+"%"
+        else :
+            tmp['radio'] = "0.00%"
+        tmp['ac'] = len(record)
+        tmp['total'] = len(records)
+        post.append(tmp)
+    return render_template('rank.html', title='Rank', posts = post, next_url = next_url, prev_url = prev_url, pagination = posts)
     
 
 @login_required
@@ -129,18 +233,95 @@ def delet(id):
 def addinform():
     form = AddInform()
     if form.validate_on_submit():
-        inform = Inform(title = form.title.data, source = form.source.data, content = form.content.data)
+        inform = Inform(title = form.title.data, source = form.source.data, content = form.content.data, limit = 0)
         db.session.add(inform)
         db.session.commit()
         flash('Your announcement have been commited.')
-        return redirect(url_for('status'))
-    return render_template('addinform.html', title='AddInfrom', form = form)
+        return redirect(url_for('index'))
+    return render_template('addinform.html', title='Add Infrom', form = form)
+
+@login_required
+@app.route('/ok_inform/<id>', methods=['GET', 'POST'])
+def ok_inform(id):
+    inform = Inform.query.filter_by(id = id).first_or_404()
+    inform.limit = "1"
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@login_required
+@app.route('/re_inform/<id>', methods=['GET', 'POST'])
+def re_inform(id):
+    inform = Inform.query.filter_by(id = id).first_or_404()
+    inform.limit = "0"
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@login_required
+@app.route('/ok_contest/<id>', methods=['GET', 'POST'])
+def ok_contest(id):
+    contest = Contest.query.filter_by(id = id).first_or_404()
+    contest.limit = "1"
+    db.session.commit()
+    return redirect(url_for('contest'))
+
+@login_required
+@app.route('/re_contest/<id>', methods=['GET', 'POST'])
+def re_contest(id):
+    contest = Contest.query.filter_by(id = id).first_or_404()
+    contest.limit = "0"
+    db.session.commit()
+    return redirect(url_for('contest'))
+
+@login_required
+@app.route('/ok_problem/<id>', methods=['GET', 'POST'])
+def ok_problem(id):
+    problem = Problem.query.filter_by(id = id).first_or_404()
+    problem.limit = "1"
+    db.session.commit()
+    return redirect(url_for('problem'))
+
+@login_required
+@app.route('/re_problem/<id>', methods=['GET', 'POST'])
+def re_problem(id):
+    problem = Problem.query.filter_by(id = id).first_or_404()
+    problem.limit = "0"
+    db.session.commit()
+    return redirect(url_for('problem'))
+
+@login_required
+@app.route('/edit_inform/<id>', methods=['GET','POST'])
+def edit_inform(id):
+    inform = Inform.query.filter_by(id = id).first_or_404()
+    form = AddInform()
+    if form.validate_on_submit():
+        inform.title = form.title.data
+        inform.content = form.content.data
+        inform.source = form.source.data
+        db.session.commit()
+        flash('The changes on the inform have been saved.')
+        return redirect(url_for('index'))
+    elif request.method == 'GET':
+        form.title.data = inform.title
+        form.source.data = inform.source
+        return render_template('edit_inform.html', title='Edit Inform', form=form, content = inform.content)
+
+@login_required
+@app.route('/del_inform/<id>', methods=['GET','POST'])
+def del_inform(id):
+    inform = Inform.query.filter_by(id = id).first_or_404()
+    db.session.delete(inform)
+    db.session.commit()
+    flash('The inform have been deleted.')
+    return redirect(url_for('index'))
 
 @app.route('/problem', methods=['GET', 'POST'])
 def problem():
     post=[]
     page = request.args.get('page', 1, type=int)
-    posts = Problem.query.paginate(page, app.config['POSTS_PER_PAGE'], False)
+    if current_user.limit == "0":
+        posts = Problem.query.filter_by(limit = "1").paginate(page, app.config['POSTS_PER_PAGE'], False)
+    else :
+        posts = Problem.query.paginate(page, app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('problem', page=posts.next_num) \
         if posts.has_next else None
     prev_url = url_for('problem', page=posts.prev_num) \
@@ -151,6 +332,7 @@ def problem():
         tmp['id'] = str(p.id)
         tmp['title'] = p.title
         tmp['source'] = p.source
+        tmp['limit'] = p.limit
         records = Record.query.filter_by(problem_id=p.id).all()
         record = Record.query.filter_by(problem_id=p.id,answer='accept').all()
         if len(records)!=0:
@@ -159,6 +341,38 @@ def problem():
             tmp['radio'] = "0.00%(0/0)"
         post.append(tmp)
     return render_template('problem.html', title='Problem', posts = post, next_url = next_url, prev_url = prev_url, pagination = posts)
+
+@login_required
+@app.route('/edit_problem/<id>', methods=['GET', 'POST'])
+def edit_problem(id):
+    problem = Problem.query.filter_by(id = id).first_or_404()
+    form = AddProblem()
+    if form.validate_on_submit():
+        problem.title = form.title.data
+        problem.ms = form.ms.data
+        problem.kb = form.kb.data
+        problem.content = form.content.data
+        problem.source = form.source.data
+        problem.hint = form.hint.data
+        db.session.commit()
+        flash('The changes on the problem have been saved.')
+        return redirect(url_for('problem'))
+    elif request.method == 'GET':
+        form.title.data = problem.title
+        form.ms.data = problem.ms
+        form.kb.data = problem.kb
+        form.source.data = problem.source
+        form.hint.data = problem.hint
+        return render_template('edit_problem.html', title='Edit Problem', form=form, content = problem.content)
+
+@login_required
+@app.route('/del_problem/<id>', methods=['GET', 'POST'])
+def del_problem(id):
+    problem = Problem.query.filter_by(id = id).first_or_404()
+    db.session.delete(problem)
+    db.session.commit()
+    flash('The problem have been deleted.')
+    return redirect(url_for('problem'))
 
 @login_required
 @app.route('/commit/<id>', methods=['GET', 'POST'])
@@ -176,6 +390,11 @@ def commit(id):
         record.kb = 0
         db.session.add(record)
         db.session.commit()
+        record = Record.query.filter_by(problem_id=id,answer='accept',user_id=current_user.id).all()
+        if len(record)==1:
+            user = User.query.filter_by(id= current_user.id).first_or_404()
+            user.ac =user.ac +1
+            db.session.commit()
         flash('Your submission have been commited.')
         return redirect(url_for('status'))
     return render_template('commit.html', title='Commit', posts=posts, form = form)
@@ -212,11 +431,26 @@ def status():
 def addproblem():
     form = AddProblem()
     if form.validate_on_submit():
-        problem = Problem(title = form.title.data, content = form.content.data, source = form.source.data, hint = form.source.data, ms = form.ms.data, kb = form.kb.data)
+        problem = Problem(title = form.title.data, content = form.content.data, source = form.source.data, hint = form.hint.data, ms = form.ms.data, kb = form.kb.data, limit =0)
         db.session.add(problem)
         db.session.commit()
-        flash('Your changes have been saved.')
+        flash('The problem have been saved.')
+        return redirect(url_for('update', id = problem.id))
     return render_template('addproblem.html', title='Add Problem', form=form)
+
+@login_required
+@app.route('/update/<id>', methods=['GET', 'POST'])
+def update(id):
+    if request.method == 'POST':
+        stdin = request.files['stdin']
+        stdout = request.files['stdout']
+        stdin.save('./data/'+str(id)+'.in')
+        stdout.save('./data/'+str(id)+'.out')
+        flash('The problem have been saved.')
+        return redirect(url_for('index'))
+    else :
+        problem = Problem.query.filter_by(id = id).first_or_404()
+        return render_template('update.html', title='Update', problem = problem)
 
 @app.route('/upload',methods=['POST'])
 @login_required
@@ -259,29 +493,19 @@ def problem_content(problemid):
     posts['key']='Problem '+str(problemid)+' '+problem.title
     return render_template('problem_content.html', title='Problem'+str(problemid), posts=posts)
 
-
-@app.route('/test1', methods=['GET', 'POST'])
-def test1():
-    mkd = '''
-    # header
-    ## header2
-    [picture](http://www.example.com)
-    * 1
-    * 2
-    * 3
-    **bold**
-    '''
-    return render_template('test1.html', mkd=mkd)
-
 @app.route('/user/<username>')
 @login_required
 def user(username):
     user = User.query.filter_by(username = username).first_or_404()
-    posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
-    ]
-    return render_template('user.html', user=user, posts=posts)
+    posts = {}
+    records = Record.query.filter_by(user_id=user.id).all()
+    record = Record.query.filter_by(user_id=user.id,answer='accept').distinct(Record.problem_id).all()
+    posts['ac'] = len(record)
+    posts['total'] = len(records)
+    t = current_user.last_seen + timedelta(hours=8)
+    t = str(t)
+    posts['time'] = t[:-7]
+    return render_template('user.html', title = username, user=user, posts=posts)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -292,7 +516,7 @@ def edit_profile():
         current_user.about_me = form.about_me.data
         db.session.commit()
         flash('Your changes have been saved.')
-        return redirect(url_for('edit_profile'))
+        return redirect(url_for('user',username = current_user.username))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
@@ -312,6 +536,7 @@ def register():
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data, limit=0)
         user.set_password(form.password.data)
+        user.ac = 0
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')

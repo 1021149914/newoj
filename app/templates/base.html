@@ -7,8 +7,7 @@
 {% endblock %}
 
 {% block scripts %}
-    {{ super() }}
-    {{ moment.include_moment() }}
+    {% block js %}{% endblock %}
 {% endblock %}
 
 {% block navbar %}
@@ -29,6 +28,7 @@
                     <li><a href="{{ url_for('problem') }}">Problem</a></li>
                     <li><a href="{{ url_for('contest') }}">Contest</a></li>
                     <li><a href="{{ url_for('status') }}">Status</a></li>
+                    <li><a href="{{ url_for('rank') }}">Rank</a></li>
                     {% if current_user.limit == "1" %}
                     <li><a href="{{ url_for('addproblem') }}">Add Problem</a></li>
                     <li><a href="{{ url_for('addinform') }}">Add Inform</a></li>

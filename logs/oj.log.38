@@ -1,0 +1,126 @@
+2019-02-20 12:55:46,584 ERROR: Exception on /addcontest [GET] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+Traceback (most recent call last):
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 86, in addcontest
+    return render_template('addcontest.html', title='Add Contest', form = form)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\templating.py", line 135, in render_template
+    context, ctx.app)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\templating.py", line 117, in _render
+    rv = template.render(context)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\asyncsupport.py", line 76, in render
+    return original_render(self, *args, **kwargs)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\addcontest.html", line 2, in top-level template code
+    {% import 'bootstrap/wtf.html' as wtf %}
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\base.html", line 1, in top-level template code
+    {% extends 'bootstrap/base.html' %}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 1, in top-level template code
+    {% block doc -%}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 4, in block "doc"
+    {%- block html %}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 20, in block "html"
+    {% block body -%}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\base.html", line 23, in block "body"
+    {% block content -%}
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\base.html", line 63, in block "content"
+    {% block app_content %}{% endblock %}
+  File "C:\Users\WuBingting\Desktop\newoj\app\templates\addcontest.html", line 15, in block "app_content"
+    {{ wtf.form_field(form.beg_time) }}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\jinja2\runtime.py", line 579, in _invoke
+    rv = self._func(*arguments)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask_bootstrap\templates\bootstrap\wtf.html", line 123, in template
+    {{field(class="form-control", **kwargs)|safe}}
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\wtforms\fields\core.py", line 155, in __call__
+    return self.meta.render_field(self, kwargs)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\wtforms\meta.py", line 56, in render_field
+    return field.widget(field, **render_kw)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\wtforms\widgets\core.py", line 181, in __call__
+    kwargs['value'] = field._value()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\wtforms\fields\core.py", line 736, in _value
+    return self.data and self.data.strftime(self.format) or ''
+AttributeError: 'str' object has no attribute 'strftime'
+2019-02-20 12:56:25,553 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+2019-02-20 12:56:46,505 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+2019-02-20 13:00:07,328 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+2019-02-20 13:00:46,180 ERROR: Exception on /addcontest [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+Traceback (most recent call last):
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 77, in addcontest
+    print(t.timestamp())
+AttributeError: 'datetime.date' object has no attribute 'timestamp'
+2019-02-20 13:02:24,651 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+2019-02-20 13:02:29,835 ERROR: Exception on /addcontest [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+Traceback (most recent call last):
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 76, in addcontest
+    print(datetime.strptime(form.beg_time.data, "%Y-%m-%d %H:%M:%S"))
+TypeError: strptime() argument 1 must be str, not datetime.date
+2019-02-20 14:21:00,596 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+2019-02-20 14:21:07,378 ERROR: Exception on /addcontest [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+Traceback (most recent call last):
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1816, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1831, in finalize_request
+    response = self.make_response(rv)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1957, in make_response
+    'The view function did not return a valid response. The'
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
+2019-02-20 14:22:18,493 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]
+2019-02-20 14:23:01,924 ERROR: Exception on /addcontest [POST] [in c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py:1761]
+Traceback (most recent call last):
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\wubingting\desktop\newoj\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\WuBingting\Desktop\newoj\app\routes.py", line 76, in addcontest
+    print(form.beg_time.time)#contest.end_time = datetime.strptime(form.end_time.data, "%Y-%m-%d %H:%M:%S")
+AttributeError: 'DateField' object has no attribute 'time'
+2019-02-20 14:25:16,240 INFO: OJ startup [in C:\Users\WuBingting\Desktop\newoj\app\__init__.py:34]

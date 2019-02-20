@@ -29,7 +29,7 @@
                     <td>{{post.kb}}KB</td>
                     <td><a href="{{ url_for('show_code', id=post.id) }}">{{post.size}}B</a></td>
                     <td>{{post.language}}</td>
-                    <td>{{post.user}}</td>
+                    <td><a href="{{ url_for('user', username=post.user) }}">{{post.user}}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %} 
+
+{% block app_content %}
+    <div class="panel panel-default">
+        <!-- Table -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Accept</th>
+                    <th>Total Submit</th>
+                    <th>AC Radio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr>
+                    <td>{{post.id}}</td>
+                    <td>{{post.name}}</td>
+                    <td>{{post.ac}}</td>
+                    <td>{{post.total}}</td>
+                    <td>{{post.radio}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if pagination %}
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination, '.rank') }}
+        </div>
+    {% endif %}
+{% endblock %}
