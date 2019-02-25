@@ -8,7 +8,99 @@ from datetime import datetime, timedelta
 from sqlalchemy import desc, distinct
 from flask_paginate import Pagination, get_page_parameter
 from werkzeug import secure_filename
-import os, json
+from multiprocessing import Process
+import os, json, lorun
+
+RESULT_STR = [
+    'Accepted',
+    'Presentation Error',
+    'Time Limit Exceeded',
+    'Memory Limit Exceeded',
+    'Wrong Answer',
+    'Runtime Error',
+    'Output Limit Exceeded',
+    'Compile Error',
+    'System Error'
+]
+
+def compileSrc(src_path):
+    if os.system('g++ %s -o m'%src_path) != 0:
+        #print('compile failure!')
+        return False
+    return True
+
+def compileSrcc(src_path):
+    if os.system('gcc %s -o m'%src_path) != 0:
+        #print('compile failure!')
+        return False
+    return True
+
+def runone(p_path, in_path, out_path,tl,ml):
+    fin = open(in_path)
+    ftemp = open('temp.out', 'w')
+    
+    runcfg = {
+        'args':[p_path],
+        'fd_in':fin.fileno(),
+        'fd_out':ftemp.fileno(),
+        'timelimit':tl, #in MS
+        'memorylimit':ml, #in KB
+        'java': False
+    }
+    
+    rst = lorun.run(runcfg)
+    fin.close()
+    ftemp.close()
+    
+    if rst['result'] == 0:
+        ftemp = open('temp.out')
+        fout = open(out_path)
+        crst = lorun.check(fout.fileno(), ftemp.fileno())
+        fout.close()
+        ftemp.close()
+        os.remove('temp.out')
+        if crst != 0:
+            return {'result':crst}
+    return rst
+
+def judgecp(src_path, td_path, td_total,id,tl,ml,kid):
+    record = Record.query.filter_by(id = kid).first_or_404()
+    record.answer = "Judging"
+    if not compileSrc(src_path):
+        return
+    for i in range(td_total):
+        in_path = os.path.join(td_path, '%d.in'%id)
+        out_path = os.path.join(td_path, '%d.out'%id)
+        if os.path.isfile(in_path) and os.path.isfile(out_path):
+            rst = runone('./'+str(id), in_path, out_path,tl,ml)
+            #rst['result'] = RESULT_STR[rst['result']]
+            record.answer = RESULT_STR[rst['result']]
+        else:
+            print('testdata:%d incompleted' % i)
+            os.remove('./'+str(id))
+            record.answer = "System Error"
+            exit(-1)
+    os.remove('./'+str(id))
+
+def judgec(src_path, td_path, td_total,id,tl,ml,kid):
+    record = Record.query.filter_by(id = kid).first_or_404()
+    record.answer = "Judging"
+    if not compileSrcc(src_path):
+        return
+    for i in range(td_total):
+        in_path = os.path.join(td_path, '%d.in'%id)
+        out_path = os.path.join(td_path, '%d.out'%id)
+        if os.path.isfile(in_path) and os.path.isfile(out_path):
+            rst = runone('./'+str(id), in_path, out_path,tl,ml)
+            #rst['result'] = RESULT_STR[rst['result']]
+            record.answer = RESULT_STR[rst['result']]
+        else:
+            print('testdata:%d incompleted' % i)
+            os.remove('./'+str(id))
+            record.answer = "System Error"
+            exit(-1)
+    os.remove('./'+str(id))
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
@@ -390,6 +482,17 @@ def commit(id):
         record.kb = 0
         db.session.add(record)
         db.session.commit()
+        stdin.save('./data/'+str(id)+'.in')
+        if record.language == "C++" :
+            with open('./commit/'+str(record.id)+'.cpp',"w") as f:
+                f.write(record.code)
+            p = Process(target=judgecp,args =('./commit/'+str(record.id)+'.cpp','./data',1,id,problem.ms,problem.kb,record.id))
+            p.start()
+        elif record.language == "C" :
+            with open('./commit/'+str(record.id)+'.c',"w") as f:
+                f.write(record.code)
+            p = Process(target=judgec,args =('./commit/'+str(record.id)+'.cpp','./data',1,id,problem.ms,problem.kb,record.id))
+            p.start()
         record = Record.query.filter_by(problem_id=id,answer='accept',user_id=current_user.id).all()
         if len(record)==1:
             user = User.query.filter_by(id= current_user.id).first_or_404()
