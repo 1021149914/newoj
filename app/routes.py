@@ -1,4 +1,4 @@
-﻿from flask import render_template, flash, redirect, url_for, request, jsonify, Response
+from flask import render_template, flash, redirect, url_for, request, jsonify, Response
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, AddProblem, Commit, AddInform, AddContest, Update
 from flask_login import current_user, login_user, logout_user, login_required
@@ -144,6 +144,7 @@ def index():
     post = posts.items
     return render_template('index.html', title='Home', posts = post, next_url = next_url, prev_url = prev_url, pagination = posts)
 
+@login_required
 @app.route('/contest', methods=['GET', 'POST'])
 def contest():
     post=[]
@@ -288,6 +289,7 @@ def addcontestproblem(id):
         cot.append(tmp)
     return render_template('addcontestproblem.html', title='Add Contest Problem', posts = posts,cot = cot)
 
+@login_required
 @app.route('/rank', methods=['GET', 'POST'])
 def rank():
     post=[]
@@ -428,8 +430,12 @@ def del_inform(id):
     flash('The inform have been deleted.')
     return redirect(url_for('index'))
 
+@login_required
 @app.route('/problem', methods=['GET', 'POST'])
 def problem():
+    if current_user.is_anonymous:
+        flash('Please log in to access this page.')
+        return redirect(url_for('login'))
     post=[]
     page = request.args.get('page', 1, type=int)
     if current_user.limit == "0":
