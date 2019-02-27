@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, jsonify, Response
+﻿from flask import render_template, flash, redirect, url_for, request, jsonify, Response
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, AddProblem, Commit, AddInform, AddContest, Update
 from flask_login import current_user, login_user, logout_user, login_required
@@ -23,28 +23,31 @@ RESULT_STR = [
     'System Error'
 ]
 
-def compileSrc(src_path):
-    if os.system('g++ %s -o m'%src_path) != 0:
+def compileSrc(src_path,key):
+    op = 'g++ %s -o '%src_path
+    if os.system(op+key) != 0:
         #print('compile failure!')
         return False
     return True
 
-def compileSrcc(src_path):
-    if os.system('gcc %s -o m'%src_path) != 0:
+def compileSrcc(src_path,key):
+    op = 'gcc %s -o '%src_path
+    if os.system(op+key) != 0:
         #print('compile failure!')
         return False
     return True
 
-def runone(p_path, in_path, out_path,tl,ml):
+def runone(p_path, in_path, out_path,tl,ml,kid):
     fin = open(in_path)
-    ftemp = open('temp.out', 'w')
+    pa = str(kid)+'.out'
+    ftemp = open(pa, 'w')
     
     runcfg = {
         'args':[p_path],
         'fd_in':fin.fileno(),
         'fd_out':ftemp.fileno(),
-        'timelimit':tl, #in MS
-        'memorylimit':ml, #in KB
+        'timelimit':eval(tl), #in MS
+        'memorylimit':eval(ml), #in KB
         'java': False
     }
     
@@ -53,12 +56,13 @@ def runone(p_path, in_path, out_path,tl,ml):
     ftemp.close()
     
     if rst['result'] == 0:
-        ftemp = open('temp.out')
+        ftemp = open(pa)
         fout = open(out_path)
         crst = lorun.check(fout.fileno(), ftemp.fileno())
         fout.close()
         ftemp.close()
-        os.remove('temp.out')
+        os.remove(pa)
+        #print(crst)
         if crst != 0:
             return {'result':crst}
     return rst
@@ -66,39 +70,57 @@ def runone(p_path, in_path, out_path,tl,ml):
 def judgecp(src_path, td_path, td_total,id,tl,ml,kid):
     record = Record.query.filter_by(id = kid).first_or_404()
     record.answer = "Judging"
-    if not compileSrc(src_path):
+    db.session.commit()
+    if not compileSrc(src_path,'./'+str(id)):
         return
     for i in range(td_total):
-        in_path = os.path.join(td_path, '%d.in'%id)
-        out_path = os.path.join(td_path, '%d.out'%id)
+        in_path = os.path.join(td_path, '%d.in'%eval(id))
+        out_path = os.path.join(td_path, '%d.out'%eval(id))
         if os.path.isfile(in_path) and os.path.isfile(out_path):
-            rst = runone('./'+str(id), in_path, out_path,tl,ml)
-            #rst['result'] = RESULT_STR[rst['result']]
-            record.answer = RESULT_STR[rst['result']]
+            #print("now rst")
+            rst = runone('./'+str(id), in_path, out_path,tl,ml,kid)
+            rst['result'] = RESULT_STR[rst['result']]
+            #print(rst)
+            record.answer = rst['result']
+            if "memoryused" in rst.keys():
+                record.kb = rst['memoryused']
+            if "timeused" in rst.keys():
+                record.ms = rst['timeused']
+            db.session.commit()
         else:
-            print('testdata:%d incompleted' % i)
-            os.remove('./'+str(id))
+            #print('testdata:%d incompleted' % i)
+            #os.remove('./'+str(id))
             record.answer = "System Error"
-            exit(-1)
+            db.session.commit()
+            #exit(-1)
     os.remove('./'+str(id))
 
 def judgec(src_path, td_path, td_total,id,tl,ml,kid):
     record = Record.query.filter_by(id = kid).first_or_404()
     record.answer = "Judging"
-    if not compileSrcc(src_path):
+    db.session.commit()
+    if not compileSrcc(src_path,'./'+str(id)):
         return
     for i in range(td_total):
-        in_path = os.path.join(td_path, '%d.in'%id)
-        out_path = os.path.join(td_path, '%d.out'%id)
+        in_path = os.path.join(td_path, '%d.in'%eval(id))
+        out_path = os.path.join(td_path, '%d.out'%eval(id))
         if os.path.isfile(in_path) and os.path.isfile(out_path):
-            rst = runone('./'+str(id), in_path, out_path,tl,ml)
-            #rst['result'] = RESULT_STR[rst['result']]
-            record.answer = RESULT_STR[rst['result']]
+            #print("now rst")
+            rst = runone('./'+str(id), in_path, out_path,tl,ml,kid)
+            rst['result'] = RESULT_STR[rst['result']]
+            #print(rst)
+            record.answer = rst['result']
+            if "memoryused" in rst.keys():
+                record.kb = rst['memoryused']
+            if "timeused" in rst.keys():
+                record.ms = rst['timeused']
+            db.session.commit()
         else:
-            print('testdata:%d incompleted' % i)
-            os.remove('./'+str(id))
+            #print('testdata:%d incompleted' % i)
+            #os.remove('./'+str(id))
             record.answer = "System Error"
-            exit(-1)
+            db.session.commit()
+            #exit(-1)
     os.remove('./'+str(id))
 
 
@@ -482,16 +504,18 @@ def commit(id):
         record.kb = 0
         db.session.add(record)
         db.session.commit()
-        stdin.save('./data/'+str(id)+'.in')
         if record.language == "C++" :
             with open('./commit/'+str(record.id)+'.cpp',"w") as f:
                 f.write(record.code)
+            #print("here c++ run")
             p = Process(target=judgecp,args =('./commit/'+str(record.id)+'.cpp','./data',1,id,problem.ms,problem.kb,record.id))
+            #print("p is ok")
             p.start()
+            #print("p is start")
         elif record.language == "C" :
             with open('./commit/'+str(record.id)+'.c',"w") as f:
                 f.write(record.code)
-            p = Process(target=judgec,args =('./commit/'+str(record.id)+'.cpp','./data',1,id,problem.ms,problem.kb,record.id))
+            p = Process(target=judgec,args =('./commit/'+str(record.id)+'.c','./data',1,id,problem.ms,problem.kb,record.id))
             p.start()
         record = Record.query.filter_by(problem_id=id,answer='accept',user_id=current_user.id).all()
         if len(record)==1:
